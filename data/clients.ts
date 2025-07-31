@@ -1,5 +1,12 @@
 import { Client } from '../types';
+import { Timestamp } from 'firebase/firestore';
 
+const getTimeFromDate = (date: Date | Timestamp): number => {
+  if (date instanceof Timestamp) {
+    return date.toDate().getTime();
+  }
+  return date.getTime();
+};
 
 
 export const CLIENT_STATUS = {
@@ -346,7 +353,7 @@ export const getCoachPerformance = () => {
       activeClients: active,
       retentionRate: total > 0 ? Math.round((active / total) * 100) : 0,
       avgClientAge: Math.round(clients.reduce((sum, c) => {
-        const age = (new Date().getTime() - c.createdAt.getTime()) / (1000 * 60 * 60 * 24);
+        const age = (new Date().getTime() - getTimeFromDate(c.createdAt)) / (1000 * 60 * 60 * 24);
         return sum + age;
       }, 0) / total)
     };
@@ -377,12 +384,12 @@ export const getClientSegments = () => {
 export const getClientLifecycle = () => {
   const now = new Date();
   const lifecycle = {
-    new: dummyClients.filter(c => (now.getTime() - c.createdAt.getTime()) < 30 * 24 * 60 * 60 * 1000),
+    new: dummyClients.filter(c => (now.getTime() - getTimeFromDate(c.createdAt)) < 30 * 24 * 60 * 60 * 1000),
     established: dummyClients.filter(c => {
-      const days = (now.getTime() - c.createdAt.getTime()) / (24 * 60 * 60 * 1000);
+      const days = (now.getTime() - getTimeFromDate(c.createdAt)) / (24 * 60 * 60 * 1000);
       return days >= 30 && days < 180;
     }),
-    longTerm: dummyClients.filter(c => (now.getTime() - c.createdAt.getTime()) >= 180 * 24 * 60 * 60 * 1000)
+    longTerm: dummyClients.filter(c => (now.getTime() - getTimeFromDate(c.createdAt)) >= 180 * 24 * 60 * 60 * 1000)
   };
   
   return lifecycle;

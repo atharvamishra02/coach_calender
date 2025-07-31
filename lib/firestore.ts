@@ -30,7 +30,10 @@ const convertTimestamp = (timestamp: Timestamp | Date): Date => {
   return timestamp;
 };
 
-const convertToTimestamp = (date: Date): Timestamp => {
+const convertToTimestamp = (date: Date | Timestamp): Timestamp => {
+  if (date instanceof Timestamp) {
+    return date;
+  }
   if (!date || !(date instanceof Date)) {
     throw new Error('Invalid date provided to convertToTimestamp');
   }
@@ -111,7 +114,7 @@ export const clientService = {
     const updateData = { ...updates };
     
     if (updates.createdAt) {
-      updateData.createdAt = convertToTimestamp(updates.createdAt);
+      updateData.createdAt = convertToTimestamp(updates.createdAt as Date);
     }
     
     await updateDoc(docRef, updateData);
@@ -289,7 +292,7 @@ export const bookingService = {
     const updateData = { ...updates };
     
     if (updates.createdAt) {
-      updateData.createdAt = convertToTimestamp(updates.createdAt);
+      updateData.createdAt = convertToTimestamp(updates.createdAt as Date);
     }
     
     await updateDoc(docRef, updateData);
@@ -347,7 +350,7 @@ export const batchService = {
       const updateData = { ...data };
       
       if (data.createdAt) {
-        updateData.createdAt = convertToTimestamp(data.createdAt);
+        updateData.createdAt = convertToTimestamp(data.createdAt as Date);
       }
       
       batch.update(docRef, updateData);

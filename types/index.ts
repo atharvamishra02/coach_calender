@@ -1,3 +1,5 @@
+import { Timestamp } from 'firebase/firestore';
+
 export interface Client {
   id: string;
   name: string;
@@ -6,7 +8,7 @@ export interface Client {
   coachId: string;
   status: 'active' | 'inactive' | 'prospect';
   notes?: string;
-  createdAt: Date;
+  createdAt: Date | Timestamp;
 }
 
 export interface Booking {
@@ -23,7 +25,7 @@ export interface Booking {
   status: 'scheduled' | 'completed' | 'cancelled' | 'no-show';
   duration: number;
   notes?: string;
-  createdAt: Date;
+  createdAt: Date | Timestamp;
 }
 
 export interface TimeSlot {
