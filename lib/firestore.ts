@@ -9,13 +9,10 @@ import {
   query,
   where,
   orderBy,
-  limit,
-  startAfter,
   Timestamp,
   writeBatch,
   onSnapshot,
   DocumentData,
-  QuerySnapshot,
   DocumentSnapshot
 } from 'firebase/firestore';
 import { db } from './firebase';
@@ -54,7 +51,7 @@ const convertDocument = <T>(doc: DocumentSnapshot<DocumentData>): T | null => {
       acc[key] = value;
     }
     return acc;
-  }, {} as any);
+  }, {} as Record<string, unknown>);
 
   return {
     id: doc.id,

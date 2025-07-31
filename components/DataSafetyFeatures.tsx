@@ -12,7 +12,13 @@ interface DataSafetyFeaturesProps {
 const DataSafetyFeatures: React.FC<DataSafetyFeaturesProps> = ({ onClose }) => {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
-  const [stats, setStats] = useState<any>(null);
+  const [stats, setStats] = useState<{
+    total: number;
+    completed: number;
+    upcoming: number;
+    cancelled: number;
+    completionRate: number;
+  } | null>(null);
 
   useEffect(() => {
     const loadData = async () => {

@@ -47,8 +47,8 @@ A modern, responsive coaching calendar application built with Next.js 15, TypeSc
      - `bookings` collection: `date`, `status`, `time`
 
 5. **Run the development server**
-   ```bash
-   npm run dev
+```bash
+npm run dev
    ```
 
 6. **Open your browser**
